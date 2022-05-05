@@ -21,8 +21,7 @@ public class WebViewActivity extends AppCompatActivity {
         Intent secondIntent = getIntent();
 
         String message = secondIntent.getStringExtra("COURSE_NAME");
-        title=(TextView) findViewById(R.id.title);
-        title.setText(message);
+
 
 
         WebView view=findViewById(R.id.webview);

@@ -26,13 +26,15 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+//this intent is when we go back from the webview page
         Intent secondIntent = getIntent();
 
         listview= (ListView) findViewById(R.id.coursesList);
         courses_array =new ArrayList<String>();
         try{
 
+
+            //we start by creating thw table of the final exams which include the course name and the course's corresponding webpage
              sql= this.openOrCreateDatabase("assignmentdb",MODE_PRIVATE,null);
             sql.execSQL("CREATE Table IF NOT EXISTS exams2 (exam_course VARCHAR,exam_website VARCHAR)");
 //            sql.execSQL("INSERT INTO exams2(exam_course,exam_website) VALUES ('Discrete Structures II','https://www.geeksforgeeks.org/introduction-of-finite-automata/')");
@@ -42,15 +44,12 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 //            sql.execSQL("INSERT INTO exams2(exam_course,exam_website) VALUES ('Capstone','https://ionicframework.com/docs')");
 //
 
-
-
+            //We then retrieve the 
             Cursor c=sql.rawQuery("Select * from exams2", null);
             int examCourseIndex = c.getColumnIndex("exam_course");
             c.moveToFirst();
-
             while (c!=null){
                 courses_array.add(c.getString(examCourseIndex));
-//                Toast.makeText(getApplicationContext(),c.getString(examCourseIndex),Toast.LENGTH_LONG).show();
                 c.moveToNext() ;
             }
 
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
         }
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,courses_array);
-
         listview.setAdapter(adapter); listview.setOnItemClickListener(this::onItemSelected);
 
 
