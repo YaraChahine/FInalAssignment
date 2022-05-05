@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
             SQLiteDatabase sql= this.openOrCreateDatabase("assignmentdb",MODE_PRIVATE,null);
             sql.execSQL("CREATE Table IF NOT EXISTS exams (exam_course VARCHAR)");
+
 //            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Discrete Structures II')"));
 //            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Parallel Programming')"));
 //            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Game Development')"));
@@ -36,18 +38,26 @@ public class MainActivity extends AppCompatActivity {
             Cursor c=sql.rawQuery("Select * from exams", null);
             int examCourseIndex = c.getColumnIndex("exam_course");
             c.moveToFirst();
+
             while (c!=null){
-                courses_array.add("test");
+                courses_array.add(c.getString(examCourseIndex));
                 Toast.makeText(getApplicationContext(),c.getString(examCourseIndex),Toast.LENGTH_LONG).show();
                 c.moveToNext() ;
             }
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,courses_array);
-
-            listview.setAdapter(adapter);
 
         }
         catch(Exception e) {
             e.printStackTrace();
         }
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,courses_array);
+
+        listview.setAdapter(adapter);
+    }
+
+
+
+    public void openWebView(View view){
+
     }
 }
