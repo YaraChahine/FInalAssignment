@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 //            sql.execSQL("INSERT INTO exams2(exam_course,exam_website) VALUES ('Capstone','https://ionicframework.com/docs')");
 //
 
-            //We then retrieve the 
+            //We then retrieve retrieve the exam courses' names and add them to the array list "courses_array"
             Cursor c=sql.rawQuery("Select * from exams2", null);
             int examCourseIndex = c.getColumnIndex("exam_course");
             c.moveToFirst();
@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
             e.printStackTrace();
         }
 
+
+        //We create a web adapter to link the array list above to the listview.
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,courses_array);
         listview.setAdapter(adapter); listview.setOnItemClickListener(this::onItemSelected);
 
@@ -65,18 +67,18 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
     }
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+     //We retrieve the item (course name) that the user selected
         selected_course = adapterView.getItemAtPosition(i).toString();
-//        Toast.makeText(getApplicationContext(),selected_course,Toast.LENGTH_LONG).show();
-
 
 try {
+
+    ///Then we 
     Cursor c = sql.rawQuery("Select * from exams2 where exam_course='"+selected_course+"';", null);
     int examCourseIndex = c.getColumnIndex("exam_website");
     c.moveToFirst();
 
     while (c!=null){
         selected_exam_website=c.getString(examCourseIndex);
-
         Toast.makeText(getApplicationContext(),c.getString(examCourseIndex),Toast.LENGTH_LONG).show();
         c.moveToNext() ;
     }
