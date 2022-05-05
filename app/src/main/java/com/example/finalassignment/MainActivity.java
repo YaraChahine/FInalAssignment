@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
 try {
 
-    ///Then we 
+    ///Then we want to retrieve the webpage corresponding to the course selected by the user
     Cursor c = sql.rawQuery("Select * from exams2 where exam_course='"+selected_course+"';", null);
     int examCourseIndex = c.getColumnIndex("exam_website");
     c.moveToFirst();
@@ -87,7 +87,8 @@ try {
 catch(Exception e) {
     e.printStackTrace();
 }
-
+//after retrieving the webpage corresponding ot the selected course name, we create a new intent and we attach the webpage url to it
+        //so that the new page could open a webpage corresponding to it.s
         Intent intent= new Intent(this,WebViewActivity.class);
         intent.putExtra( "COURSE_NAME",selected_exam_website);
         startActivity(intent);
