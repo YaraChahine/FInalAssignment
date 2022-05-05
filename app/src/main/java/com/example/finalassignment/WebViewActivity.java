@@ -20,6 +20,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         Intent secondIntent = getIntent();
 
+        //We retrieve the url sent from the first page and we save it in a variable
         String message = secondIntent.getStringExtra("COURSE_NAME");
 
 
