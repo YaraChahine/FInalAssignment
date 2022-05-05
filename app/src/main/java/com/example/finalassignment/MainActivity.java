@@ -20,26 +20,31 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
     ArrayAdapter<String> adapter;
     String selected_course;
     SQLiteDatabase sql;
+    String selected_exam_website;
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Intent secondIntent = getIntent();
 
         listview= (ListView) findViewById(R.id.coursesList);
         courses_array =new ArrayList<String>();
         try{
 
              sql= this.openOrCreateDatabase("assignmentdb",MODE_PRIVATE,null);
-            sql.execSQL("CREATE Table IF NOT EXISTS exams (exam_course VARCHAR)");
+            sql.execSQL("CREATE Table IF NOT EXISTS exams2 (exam_course VARCHAR,exam_website VARCHAR)");
+//            sql.execSQL("INSERT INTO exams2(exam_course,exam_website) VALUES ('Discrete Structures II','https://www.geeksforgeeks.org/introduction-of-finite-automata/')");
+//            sql.execSQL("INSERT INTO exams2(exam_course,exam_website) VALUES ('Parallel Programming','https://www.geeksforgeeks.org/introduction-to-parallel-computing/')");
+//            sql.execSQL("INSERT INTO exams2(exam_course,exam_website) VALUES ('Game Development','https://docs.unity3d.com/Manual/index.html')");
+//            sql.execSQL("INSERT INTO exams2(exam_course,exam_website) VALUES ('Mobile Develpoment','https://developer.android.com/docs')");
+//            sql.execSQL("INSERT INTO exams2(exam_course,exam_website) VALUES ('Capstone','https://ionicframework.com/docs')");
+//
 
-//            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Discrete Structures II')"));
-//            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Parallel Programming')"));
-//            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Game Development')"));
-//            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Mobile Develpoment')"));
-//            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Capstone')"));
 
 
-            Cursor c=sql.rawQuery("Select * from exams", null);
+            Cursor c=sql.rawQuery("Select * from exams2", null);
             int examCourseIndex = c.getColumnIndex("exam_course");
             c.moveToFirst();
 
@@ -63,12 +68,29 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         selected_course = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(getApplicationContext(),selected_course,Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(),selected_course,Toast.LENGTH_LONG).show();
+
+
+try {
+    Cursor c = sql.rawQuery("Select * from exams2 where exam_course='"+selected_course+"';", null);
+    int examCourseIndex = c.getColumnIndex("exam_website");
+    c.moveToFirst();
+
+    while (c!=null){
+        selected_exam_website=c.getString(examCourseIndex);
+
+        Toast.makeText(getApplicationContext(),c.getString(examCourseIndex),Toast.LENGTH_LONG).show();
+        c.moveToNext() ;
+    }
+
+}
+catch(Exception e) {
+    e.printStackTrace();
+}
+
         Intent intent= new Intent(this,WebViewActivity.class);
-        intent.putExtra( "COURSE_NAME", selected_course);
-
-
-        startActivity(intent); //The following function is used in order to take the user to MainActivity2
+        intent.putExtra( "COURSE_NAME",selected_exam_website);
+        startActivity(intent);
 
 
     }
