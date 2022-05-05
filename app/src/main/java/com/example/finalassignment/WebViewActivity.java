@@ -25,6 +25,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 
 
+        //we then enable javascript in our webview and load the url.
         WebView view=findViewById(R.id.webview);
         view.getSettings().setJavaScriptEnabled(true);
         view.setWebViewClient(new WebViewClient());
@@ -37,7 +38,7 @@ public class WebViewActivity extends AppCompatActivity {
         Intent intent= new Intent(this,MainActivity.class);
 
 
-        startActivity(intent); //The following function is used in order to take the user to MainActivity2
+        startActivity(intent); //The following function is used in order to take the user to MainActivity
 
     }
 }
