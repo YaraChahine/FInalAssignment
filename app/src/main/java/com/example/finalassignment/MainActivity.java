@@ -2,6 +2,7 @@ package com.example.finalassignment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
     ArrayList<String> courses_array;
     ArrayAdapter<String> adapter;
     String selected_course;
+    SQLiteDatabase sql;
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
         courses_array =new ArrayList<String>();
         try{
 
-            SQLiteDatabase sql= this.openOrCreateDatabase("assignmentdb",MODE_PRIVATE,null);
+             sql= this.openOrCreateDatabase("assignmentdb",MODE_PRIVATE,null);
             sql.execSQL("CREATE Table IF NOT EXISTS exams (exam_course VARCHAR)");
 
 //            sql.execSQL(("INSERT INTO exams(exam_course) VALUES ('Discrete Structures II')"));
@@ -62,6 +64,11 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         selected_course = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(getApplicationContext(),selected_course,Toast.LENGTH_LONG).show();
+        Intent intent= new Intent(this,WebViewActivity.class);
+        intent.putExtra( "COURSE_NAME", selected_course);
+
+
+        startActivity(intent); //The following function is used in order to take the user to MainActivity2
 
 
     }
